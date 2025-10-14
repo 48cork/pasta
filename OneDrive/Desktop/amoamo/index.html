@@ -1,0 +1,212 @@
+"use client";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useTheme } from "next-themes";
+import {
+  Search,
+  Calendar as CalendarIcon,
+  GraduationCap,
+  Moon,
+  Sun,
+  BookOpen,
+} from "lucide-react";
+import dynamic from "next/dynamic";
+
+// --- Importação dinâmica ---
+const WeekCards = dynamic(() => import("../components/sociologia/WeekCards"), { ssr: false });
+const StudyToolsPanel = dynamic(() => import("../components/sociologia/StudyToolsPanel"), { ssr: false });
+const InteractiveCalendar = dynamic(() => import("../components/sociologia/InteractiveCalendar"), { ssr: false });
+const ConceptCards = dynamic(() => import("../components/sociologia/ConceptCards"), { ssr: false });
+const ThemeCards = dynamic(() => import("../components/sociologia/ThemeCards"), { ssr: false });
+const EvaluationInfo = dynamic(() => import("../components/sociologia/EvaluationInfo"), { ssr: false });
+
+// --- Hook personalizado para animar ao entrar em viewport ---
+function useInViewAnimation(threshold = 0.3) {
+  const controls = useAnimation();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) controls.start("visible");
+        });
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [controls, threshold]);
+
+  return [ref, controls];
+}
+
+export default function Home() {
+  const [showStudyTools, setShowStudyTools] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeSection, setActiveSection] = useState("inicio");
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  // Destacar seção ativa no menu
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => entry.isIntersecting && setActiveSection(entry.target.id));
+      },
+      { threshold: 0.4 }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToSection = useCallback((id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  if (!mounted) return <div className="min-h-screen bg-slate-100 dark:bg-slate-900" />;
+
+  // --- Variantes de animação ---
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+  };
+
+  // --- Hooks para cada seção ---
+  const [refInicio, ctrlInicio] = useInViewAnimation();
+  const [refCalendario, ctrlCalendario] = useInViewAnimation();
+  const [refConteudos, ctrlConteudos] = useInViewAnimation();
+  const [refAvaliacoes, ctrlAvaliacoes] = useInViewAnimation();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-200 transition-colors duration-500">
+      {/* --- HEADER --- */}
+      <header className="bg-gradient-to-r from-slate-800 via-indigo-900 to-purple-900 text-white shadow-xl">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              <GraduationCap className="h-8 w-8" />
+              <h1 className="text-2xl font-bold">Sociologia Interativa</h1>
+            </div>
+
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="text-white hover:bg-white/20"
+              >
+                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              </Button>
+
+              <Button
+                onClick={() => setShowStudyTools((prev) => !prev)}
+                className="bg-white/20 hover:bg-white/30"
+              >
+                <BookOpen className="h-5 w-5 mr-2" />
+                Ferramentas
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div className="flex space-x-2">
+              {["inicio", "calendario", "conteudos", "avaliacoes"].map((section) => (
+                <Button
+                  key={section}
+                  variant={activeSection === section ? "default" : "ghost"}
+                  onClick={() => scrollToSection(section)}
+                  className={`capitalize transition-all ${
+                    activeSection === section
+                      ? "bg-indigo-600 text-white"
+                      : "hover:bg-indigo-800/20"
+                  }`}
+                >
+                  {section === "inicio" && "Início"}
+                  {section === "calendario" && "Calendário"}
+                  {section === "conteudos" && "Conteúdos"}
+                  {section === "avaliacoes" && "Avaliações"}
+                </Button>
+              ))}
+            </div>
+
+            <div className="relative w-full md:w-64">
+              <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/70" />
+              <Input
+                placeholder="Buscar conceitos..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8 bg-white/10 border border-white/30 text-white placeholder:text-white/70 focus:ring-2 focus:ring-indigo-400"
+              />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* --- MAIN --- */}
+      <main className="max-w-7xl mx-auto px-4 py-8 space-y-16">
+        <AnimatePresence mode="wait">
+          {showStudyTools && (
+            <motion.div
+              key="tools-panel"
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+            >
+              <StudyToolsPanel />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* --- Seções com animação --- */}
+        <motion.section
+          id="inicio"
+          ref={refInicio}
+          variants={sectionVariants}
+          initial="hidden"
+          animate={ctrlInicio}
+        >
+          <WeekCards />
+        </motion.section>
+
+        <motion.section
+          id="calendario"
+          ref={refCalendario}
+          variants={sectionVariants}
+          initial="hidden"
+          animate={ctrlCalendario}
+        >
+          <InteractiveCalendar />
+        </motion.section>
+
+        <motion.section
+          id="conteudos"
+          ref={refConteudos}
+          variants={sectionVariants}
+          initial="hidden"
+          animate={ctrlConteudos}
+          className="grid gap-8 md:grid-cols-2"
+        >
+          <ConceptCards searchTerm={searchTerm} />
+          <ThemeCards />
+        </motion.section>
+
+        <motion.section
+          id="avaliacoes"
+          ref={refAvaliacoes}
+          variants={sectionVariants}
+          initial="hidden"
+          animate={ctrlAvaliacoes}
+        >
+          <EvaluationInfo />
+        </motion.section>
+      </main>
+    </div>
+  );
+}
