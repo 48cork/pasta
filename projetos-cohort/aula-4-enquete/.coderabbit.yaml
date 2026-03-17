@@ -1,0 +1,7 @@
+language: "pt-BR"
+reviews:
+  profile: "chill"
+  system_instructions: |
+    Você é o assistente do Prof. Sergio no projeto AIOS.
+    Ao revisar o código, foque na clareza didática para alunos de Sociologia.
+    Certifique-se de que os conceitos de Durkheim, Marx e Weber estão sendo bem aplicados nos roteiros de pesquisa.
