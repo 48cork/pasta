@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roteiro Sociológico - Trabalho Digital</title>
+  <title>Sociological Research Toolkit</title>
   <style>
     body {
       margin: 0;
@@ -51,11 +51,31 @@
       font-size: 1.1rem;
     }
 
+    .topic-var {
+      font-family: "Courier New", Courier, monospace;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 6px;
+      padding: 2px 8px;
+    }
+
     .prompt {
       margin-top: 8px;
       padding: 10px;
       background: #f1f5f9;
       border-left: 4px solid #334155;
+    }
+
+    .toolbox-item {
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+
+    .toolbox-item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
     }
 
     footer {
@@ -67,101 +87,104 @@
 </head>
 <body>
   <header>
-    <h1>Roteiro de Análise Sociológica</h1>
-    <p>Tema: Trabalho Digital</p>
+    <h1>Sociological Research Toolkit</h1>
+    <p>
+      Tema de pesquisa:
+      <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>
+    </p>
     <nav aria-label="Navegação do roteiro">
       <ul>
-        <li><a href="#etapa-1">1. Definição do objeto de estudo</a></li>
-        <li><a href="#etapa-2">2. Revisão bibliográfica</a></li>
-        <li><a href="#etapa-3">3. Escolha da metodologia</a></li>
-        <li><a href="#etapa-4">4. Coleta de dados</a></li>
-        <li><a href="#etapa-5">5. Análise e interpretação</a></li>
-        <li><a href="#etapa-6">6. Conclusão</a></li>
+        <li><a href="#setup">1. Setup da pesquisa</a></li>
+        <li><a href="#etapas">2. Fluxo de campo</a></li>
+        <li><a href="#toolbox">3. Theoretical Toolbox</a></li>
+        <li><a href="#sintese">4. Síntese final</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <section id="etapa-1">
-      <h2>1. Definição do objeto de estudo</h2>
+    <section id="setup">
+      <h2>1. Setup da pesquisa</h2>
       <p>
-        Delimite o foco da pesquisa sobre trabalho digital. Exemplo: entregadores por
-        aplicativo em uma cidade específica entre 2024 e 2026.
+        Troque o placeholder <span class="topic-var">{{TEMA_DE_PESQUISA}}</span> pelo seu tema.
+        Exemplo: "Entregadores por app em Recife (2025-2026)".
       </p>
       <div class="prompt">
-        Perguntas-guia: quem trabalha, para quem trabalha, e como a plataforma organiza
-        tempo, remuneração e avaliação.
+        Campo mínimo: recorte temporal, território, perfil de trabalhadores e tipo de plataforma.
       </div>
     </section>
 
-    <section id="etapa-2">
-      <h2>2. Revisão bibliográfica</h2>
+    <section id="etapas">
+      <h2>2. Fluxo de campo</h2>
       <p>
-        Levante autores e estudos sobre plataformização do trabalho, precarização,
-        gestão algorítmica e ação coletiva de trabalhadores digitais.
+        Use este fluxo base:
+        definição do problema, coleta de relatos, categorização teórica e comparação
+        entre discurso da plataforma e experiência do trabalhador.
       </p>
       <div class="prompt">
-        Registre convergências e divergências entre autores e destaque lacunas para
-        sua pesquisa preencher.
+        Registre evidências em blocos curtos: "situação observada", "fala do entrevistado",
+        "interpretação teórica provisória".
       </div>
     </section>
 
-    <section id="etapa-3">
-      <h2>3. Escolha da metodologia</h2>
-      <p>
-        Defina abordagem qualitativa, quantitativa ou mista. Para investigar o
-        <strong>habitus</strong> (Bourdieu), priorize entrevistas e observação:
-        como motoristas de Uber e entregadores internalizam disposições práticas
-        (estar sempre online, aceitar corridas ruins, evitar cancelamentos) para
-        permanecer "bem ranqueados" no app.
-      </p>
-      <div class="prompt">
-        Cruze essa leitura com dados quantitativos (tempo conectado, taxa de aceitação,
-        renda líquida por hora) para mostrar como o habitus é moldado por regras
-        algorítmicas e necessidade econômica.
+    <section id="toolbox">
+      <h2>3. Theoretical Toolbox</h2>
+
+      <div class="toolbox-item">
+        <h3>Durkheim - Solidariedade</h3>
+        <p>Use para analisar coesão social, apoio mútuo e isolamento entre trabalhadores.</p>
+        <div class="prompt">
+          Prompt modular: "No tema <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>, quais práticas mostram solidariedade mecânica/ orgânica entre trabalhadores?"
+        </div>
+      </div>
+
+      <div class="toolbox-item">
+        <h3>Weber - Ação Racional</h3>
+        <p>Use para mapear decisões orientadas por cálculo, valores ou pressão de contexto.</p>
+        <div class="prompt">
+          Prompt modular: "No tema <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>, como os trabalhadores justificam decisões por custo, tempo, reputação e risco?"
+        </div>
+      </div>
+
+      <div class="toolbox-item">
+        <h3>Marx - Fetichismo</h3>
+        <p>Use para investigar como o app parece neutro enquanto oculta relações de exploração.</p>
+        <div class="prompt">
+          Prompt modular: "No tema <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>, onde a tecnologia mascara relações de poder e trabalho?"
+        </div>
+      </div>
+
+      <div class="toolbox-item">
+        <h3>Bourdieu - Capital Social</h3>
+        <p>Use para identificar como redes de contato aumentam acesso a informação e renda.</p>
+        <div class="prompt">
+          Prompt modular: "No tema <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>, quais vínculos sociais ajudam trabalhadores a melhorar resultados?"
+        </div>
+      </div>
+
+      <div class="toolbox-item">
+        <h3>Bauman - Liquidez</h3>
+        <p>Use para interpretar instabilidade, vínculos frágeis e incerteza permanente.</p>
+        <div class="prompt">
+          Prompt modular: "No tema <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>, como a incerteza afeta planejamento de vida, renda e trabalho?"
+        </div>
       </div>
     </section>
 
-    <section id="etapa-4">
-      <h2>4. Coleta de dados</h2>
+    <section id="sintese">
+      <h2>4. Síntese final</h2>
       <p>
-        Planeje entrevistas, questionários, observação de campo e análise documental
-        (termos de uso, comunicados da plataforma, decisões judiciais).
+        Compare os resultados de cada ferramenta teórica e destaque convergências,
+        tensões e pontos cegos da pesquisa.
       </p>
       <div class="prompt">
-        Garanta critérios éticos: consentimento, anonimização e proteção de dados pessoais.
-      </div>
-    </section>
-
-    <section id="etapa-5">
-      <h2>5. Análise e interpretação</h2>
-      <p>
-        Interprete os dados com a noção marxista de <strong>alienação</strong>:
-        no trabalho de plataforma, o trabalhador controla pouco o processo produtivo,
-        não define preço, rota ou ritmo, e depende de avaliações opacas para continuar
-        ativo. A autonomia aparente ("ser seu próprio chefe") convive com subordinação
-        real ao algoritmo.
-      </p>
-      <div class="prompt">
-        Compare o discurso de flexibilidade das plataformas com relatos concretos de
-        exaustão, insegurança de renda e distanciamento do produto final do trabalho.
-      </div>
-    </section>
-
-    <section id="etapa-6">
-      <h2>6. Conclusão</h2>
-      <p>
-        Sintetize achados, limites da pesquisa e implicações sociais. Indique como o
-        trabalho digital reorganiza direitos, proteção social e relações laborais.
-      </p>
-      <div class="prompt">
-        Aponte recomendações para pesquisas futuras e possíveis contribuições para políticas públicas.
+        Síntese modular: "Para <span class="topic-var">{{TEMA_DE_PESQUISA}}</span>, quais explicações foram mais fortes e quais evidências ainda faltam?"
       </div>
     </section>
   </main>
 
   <footer>
-    <p>Roteiro inicial para análise sociológica do trabalho digital.</p>
+    <p>Toolkit modular de pesquisa sociológica para uso em entrevistas e análise de campo.</p>
   </footer>
 </body>
 </html>
