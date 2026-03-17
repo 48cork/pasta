@@ -2,7 +2,7 @@
 
 ## Status
 
-Ready for Review
+DONE
 
 ---
 
@@ -67,8 +67,8 @@ quality_gate_tools: ["html-validator", "browser-check"]
 - Supporting Agents: N/A
 
 **Quality Gate Tasks**
-- [ ] Pre-Commit (@dev): Verificar HTML válido antes de marcar story completa
-- [ ] Pre-PR (@dev): Revisar conteúdo e estrutura antes do pull request
+- [x] Pre-Commit (@dev): Verificar HTML válido antes de marcar story completa
+- [x] Pre-PR (@dev): Revisar conteúdo e estrutura antes do pull request
 
 **Self-Healing Configuration**
 - Primary Agent: @dev (light mode)
@@ -191,7 +191,7 @@ N/A
 
 ```yaml
 story_id: STORY-001
-status: Ready for Review
+status: DONE
 prioridade: media
 estimativa: 1-2 horas
 criado_em: 2026-03-07
