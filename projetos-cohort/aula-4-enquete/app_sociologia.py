@@ -2,32 +2,44 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-st.set_page_config(page_title="Monitor de Tensões UFCG", layout="wide")
+st.set_page_config(page_title="Sociologia de Dados - UFCG", layout="wide")
 
-st.title("📊 Monitor de Tensões Sociológicas - UACS/UFCG")
-st.markdown("""
-Este painel visualiza os dados coletados pelo **Squad de IAs** (Marx, Weber, Durkheim e Bourdieu) 
-sobre a realidade dos estudantes.
-""")
+# Título Oficial do Projeto
+st.title("🏛️ Sociologia de Dados: Observatório de Tensões (UACS/UFCG)")
+st.markdown("---")
 
-# Carregar os dados que criamos na Aula 6
+# Carregar Dados
 df = pd.read_csv("matriz_diagnostica_ufcg.csv")
 
-# Layout de Colunas
+# Cálculo de Métricas Rápidas
+total_relatos = len(df)
+crise_maxima = len(df[df['intensidade'] == 5])
+
+# Exibir "Big Numbers" no topo
+m1, m2, m3 = st.columns(3)
+m1.metric("Total de Relatos", total_relatos)
+m2.metric("Nível de Tensão Médio", round(df['intensidade'].mean(), 1))
+m3.metric("Casos em Crise Máxima", crise_maxima, delta_color="inverse")
+
+st.markdown("---")
+
+# Layout de Colunas para Gráficos
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Distribuição por Teoria Dominante")
-    fig_pie = px.pie(df, names='teoria_dominante', title="Quais autores explicam a crise atual?", hole=0.3)
+    st.subheader("Frequência Teórica")
+    fig_pie = px.pie(df, names='teoria_dominante', hole=0.4, 
+                     color_discrete_sequence=px.colors.qualitative.Pastel)
     st.plotly_chart(fig_pie)
 
 with col2:
-    st.subheader("Intensidade das Tensões")
-    fig_bar = px.bar(df, x='id_aluno', y='intensidade', color='teoria_dominante', 
-                     hover_data=['conceito_chave'], title="Nível de Impacto por Aluno")
+    st.subheader("Mapa de Calor da Intensidade")
+    fig_bar = px.bar(df, x='id_aluno', y='intensidade', color='teoria_dominante',
+                     hover_data=['conceito_chave'], barmode='group')
     st.plotly_chart(fig_bar)
 
-st.subheader("📋 Base de Dados Bruta")
-st.dataframe(df)
+st.subheader("📋 Base de Dados Estruturada")
+st.dataframe(df, use_container_width=True)
 
-st.sidebar.info(f"Total de Relatos Processados: {len(df)}")
+st.sidebar.header("Sobre o Projeto")
+st.sidebar.info("Desenvolvido pelo Prof. Sergio Farias como ferramenta de diagnóstico sociológico digital.")
